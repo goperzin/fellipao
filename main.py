@@ -5,13 +5,33 @@ def montar_json_amis():
     # Define os nomes dos arquivos para processar
     arquivos = ["arquivo1.json", "arquivo2.json", "arquivo3.json"]
 
-    # Solicita ao usuário a entrada das AMIs
-    entrada = input("Insira uma ou mais AMIs separadas por vírgula: ").strip()
+    while True:
+        # Solicita ao usuário qual arquivo deseja alterar
+        print("Escolha o arquivo para alterar:")
+        for i, nome_arquivo in enumerate(arquivos, start=1):
+            print(f"{i} - {nome_arquivo}")
+        print("4 - SAIR")
 
-    # Divide a entrada por vírgulas e remove espaços extras
-    novas_amis = [ami.strip() for ami in entrada.split(",") if ami.strip()]
+        escolha = input("Digite o número correspondente ao arquivo: ").strip()
 
-    for nome_arquivo in arquivos:
+        try:
+            indice_arquivo = int(escolha) - 1
+            if indice_arquivo == len(arquivos):
+                print("Encerrando o programa.")
+                break
+            if indice_arquivo < 0 or indice_arquivo >= len(arquivos):
+                raise ValueError
+            nome_arquivo = arquivos[indice_arquivo]
+        except ValueError:
+            print("Opção inválida. Tente novamente.")
+            continue
+
+        # Solicita ao usuário a entrada das AMIs
+        entrada = input("Insira uma ou mais AMIs separadas por vírgula: ").strip()
+
+        # Divide a entrada por vírgulas e remove espaços extras
+        novas_amis = [ami.strip() for ami in entrada.split(",") if ami.strip()]
+
         try:
             # Tenta carregar o JSON existente (se existir)
             with open(nome_arquivo, "r") as arquivo:
