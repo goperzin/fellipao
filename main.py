@@ -15,8 +15,10 @@ def montar_json_amis():
     # Divide a entrada por vírgulas e remove espaços extras
     novas_amis = [ami.strip() for ami in entrada.split(",") if ami.strip()]
 
-    # Adiciona as novas AMIs à lista existente, evitando duplicatas
-    dados["imagemId"].extend(ami for ami in novas_amis if ami not in dados["imagemId"])
+    # Adiciona as novas AMIs à lista existente, mantendo a ordem e evitando duplicatas
+    for ami in novas_amis:
+        if ami not in dados["imagemId"]:
+            dados["imagemId"].append(ami)
 
     # Salva o JSON atualizado no arquivo
     with open("amis.json", "w") as arquivo:
